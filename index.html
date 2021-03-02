@@ -17,7 +17,8 @@
   <link href="bootstrap/css/heroic-features.css" rel="stylesheet">
 
   <!-- link bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 
 <body>
@@ -61,7 +62,7 @@
         possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam
         repellat.</p>
       <a href="#" class="btn btn-primary btn-lg" id="create">Create a character</a>
-      
+
     </header>
 
     <!-- Page Features -->
@@ -73,23 +74,19 @@
             <img class="card-img-top w-75 mx-auto" id="image" src="http://placehold.it/500x325" alt="">
             <div class="card-body">
               <h4 class="card-title" id="name">Card title</h4>
-              <p class="card-text" id="short-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Sapiente esse necessitatibus
-                neque.</p>
+              <p class="card-text" id="short-description"></p>
+              <a href="#" class="btn btn-primary" id="long-description-button">Show description</a>
+              <p class="card-text text-justify pt-3" id="long-description" style="display: none;"></p>
             </div>
             <div class="card-footer">
               <button class="btn btn-primary" type="button" id="edit">Edit</button>
               <button class="btn btn-primary" type="button" id="delete">Delete </button>
-              <a href="#" class="btn btn-primary" id="long-description-button" onclick="collapseDescription()">Description</a>
-              <div id="long-description">Lorem ipsum dolor sit amet.</div>
-           
-
+            </div>
           </div>
-        </div>
       </template>
     </div>
     <!-- /.row -->
-    
+
   </div>
   <!-- /.container -->
 
@@ -104,8 +101,10 @@
   <!-- Bootstrap core JavaScript -->
   <script src="bootstrap/vendor/jquery/jquery.min.js"></script>
   <script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+  <script src="assets/script.js"></script>
 </body>
 
 </html>

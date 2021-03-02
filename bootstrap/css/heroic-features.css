@@ -8,5 +8,6 @@ body {
 }
 
 #long-description{
-  display: none;
+  max-height: 100px;
+  overflow-y: auto;
 }
