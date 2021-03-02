@@ -16,13 +16,15 @@ async function fetchApi() {
         const data = await myFetch.json();
         console.log(data);
 
-        data.forEach(character => {
+        data.forEach(({ name, shortDescription, image }) => {
             const cardTemplate = document.querySelector('#template');
             const target = document.querySelector('#target');
             const cardClone = cardTemplate.cloneNode(true).content;
 
-            cardClone.querySelector('#name').innerHTML = character.name;
-            cardClone.querySelector('#short-description').innerHTML = character.shortDescription;
+            cardClone.querySelector('#name').innerHTML = name;
+            cardClone.querySelector('#short-description').innerHTML = shortDescription;
+            cardClone.querySelector('#image').src = image;
+
 
             target.appendChild(cardClone);
         });
