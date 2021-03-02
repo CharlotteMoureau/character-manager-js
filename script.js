@@ -13,20 +13,20 @@
 async function fetchApi() {
     try {
         const myFetch = await fetch('https://character-database.becode.xyz/characters');
-        const data = await myFetch.json();
-        console.log(data);
+        const character = await myFetch.json();
+        console.log(character);
 
-        data.forEach(({ name, shortDescription, image }) => {
+        character.forEach(({ name, shortDescription, image }) => {
             const cardTemplate = document.querySelector('#template');
             const target = document.querySelector('#target');
             const cardClone = cardTemplate.cloneNode(true).content;
 
             cardClone.querySelector('#name').innerHTML = name;
             cardClone.querySelector('#short-description').innerHTML = shortDescription;
-            cardClone.querySelector('#image').src = image;
+            cardClone.querySelector('#image').src = `data:image/*;base64,${image}`;
 
 
-            target.appendChild(cardClone);
+            target.appendChild(cardClone); 
         });
 
     } catch (error) {
@@ -35,20 +35,15 @@ async function fetchApi() {
 }
 fetchApi();
 
-// function newCharacter(data) {
-//     data.forEach(character => {
-//         const cardTemplate = document.querySelector('#template');
-//         const target = document.querySelector('#target');
-//         const cardClone = cardTemplate.cloneNode(true).content;
-
-//         cardClone.querySelector('#name').innerHTML = character.name;
-//         cardClone.querySelector('#short-description').innerHTML = character.description;
-
-//         target.appendChild(cardClone);
-//     });
-// }
-
-// test.then(data => {
-//     newCharacter(data);
-//     console.log(data);
-// })
+    function collapseDescription(){
+    const longDescription = document.getElementById('long-description');
+    console.log(longDescription)
+    
+        if(longDescription.style.display === 'none'){
+            longDescription.style.display = 'inline-block';
+        }
+    
+        
+    
+}
+collapseDescription()

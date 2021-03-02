@@ -7,6 +7,6 @@ body {
   padding-top: 56px;
 }
 
-#template {
-  background-color: blue;
+#long-description{
+  display: none;
 }
