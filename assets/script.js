@@ -47,22 +47,33 @@
 
 
     // collapse description
-    function collapseDescription() {
-        document.getElementById('long-description-button').addEventListener('click', function () {
-            const longDescription = document.getElementById('long-description');
+    function collapseDescription(character) {
+      const longDescriptionButton = document.getElementsByClassName('long-description-button');
+      const modalName = document.getElementsByClassName('modal-name');
+    console.log(modalName);
+      for(let i = 0 ; i<longDescriptionButton.length; i++){
+        longDescriptionButton[i].addEventListener('click', function () {
+            console.log(i);
+              console.log(modalName[i]);
 
-            if (longDescription.style.display === 'none') {
-                longDescription.style.display = 'block';
-                console.log('coucou');
-            } else {
-                longDescription.style.display = 'none';
-                console.log('pas coucou');
-            }
+            const modalTemplate = document.querySelector('#modal-template');
+            const targetModal = document.querySelector('#target-modal');
+            const modalClone = modalTemplate.cloneNode(true).content;
+
+            modalClone.querySelector('.modal-title').innerHTML = modalName[i];
+          //  console.log(modalClone.querySelector('.modal-title').innerHTML)
+          /*  modalClone.querySelector('#short-modal-description').innerHTML = shortDescription;
+            modalClone.querySelector('#modal-image').src = `data:image/*;base64,${image}`;
+            modalClone.querySelector('#long-modal-description').innerHTML = description;*/
+            //console.log(modalClone);
+            targetModal.appendChild(modalClone);
         });
-
+}
     }
 
-    ourApi.then(() => {
+    ourApi.then(character => {
         collapseDescription();
     })
+
+
 })();
