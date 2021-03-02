@@ -47,31 +47,30 @@
 
 
     // collapse description
-    function collapseDescription(character) {
-      const longDescriptionButton = document.getElementsByClassName('long-description-button');
-      const modalName = document.getElementsByClassName('modal-name');
-    console.log(modalName);
-      for(let i = 0 ; i<longDescriptionButton.length; i++){
-        longDescriptionButton[i].addEventListener('click', function () {
-            console.log(i);
-              console.log(modalName[i]);
+    function collapseDescription() {
+        const longDescriptionButton = document.getElementsByClassName('long-description-button');
+        const cardName = document.getElementsByClassName('name-for-modal');
+        const shortDescription = document.getElementsByClassName('short-for-modal');
+        const longDescription = document.getElementsByClassName('long-for-modal');
+        const cardImage = document.getElementsByClassName('image-for-modal');
 
-            const modalTemplate = document.querySelector('#modal-template');
-            const targetModal = document.querySelector('#target-modal');
-            const modalClone = modalTemplate.cloneNode(true).content;
+        for (let i = 0; i < longDescriptionButton.length; i++) {
+            longDescriptionButton[i].addEventListener('click', function () {
+                let modalName = document.getElementById('exampleModalLabel');
+                let modalShortDescription = document.getElementById('short-modal-description');
+                let modalLongDescription = document.getElementById('long-modal-description');
+                let modalImage = document.getElementById('modal-image');
 
-            modalClone.querySelector('.modal-title').innerHTML = modalName[i];
-          //  console.log(modalClone.querySelector('.modal-title').innerHTML)
-          /*  modalClone.querySelector('#short-modal-description').innerHTML = shortDescription;
-            modalClone.querySelector('#modal-image').src = `data:image/*;base64,${image}`;
-            modalClone.querySelector('#long-modal-description').innerHTML = description;*/
-            //console.log(modalClone);
-            targetModal.appendChild(modalClone);
-        });
-}
+
+                modalName.textContent = cardName[i].textContent;
+                modalShortDescription.textContent = shortDescription[i].textContent;
+                modalLongDescription.textContent = longDescription[i].textContent;
+                cardImage.src = modalImage[i].src;
+            });
+        }
     }
 
-    ourApi.then(character => {
+    ourApi.then(() => {
         collapseDescription();
     })
 
