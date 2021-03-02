@@ -47,7 +47,7 @@
 
 
     // collapse description
-    function collapseDescription() {
+    function openCharacterCard() {
         const longDescriptionButton = document.getElementsByClassName('long-description-button');
         const cardName = document.getElementsByClassName('name-for-modal');
         const shortDescription = document.getElementsByClassName('short-for-modal');
@@ -56,23 +56,27 @@
 
         for (let i = 0; i < longDescriptionButton.length; i++) {
             longDescriptionButton[i].addEventListener('click', function () {
+
                 let modalName = document.getElementById('exampleModalLabel');
                 let modalShortDescription = document.getElementById('short-modal-description');
                 let modalLongDescription = document.getElementById('long-modal-description');
                 let modalImage = document.getElementById('modal-image');
 
-
                 modalName.textContent = cardName[i].textContent;
                 modalShortDescription.textContent = shortDescription[i].textContent;
                 modalLongDescription.textContent = longDescription[i].textContent;
-                cardImage.src = modalImage[i].src;
+                modalImage.src = cardImage[i].src;
             });
         }
     }
 
     ourApi.then(() => {
-        collapseDescription();
+        openCharacterCard();
     })
 
+    // create a character
+    // delete a character
+    // edit a character
 
+    // /!\ ne pas oublier de ne "rien" mettre dans les champs pour que ce soit pris en compte
 })();
