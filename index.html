@@ -22,46 +22,16 @@
 </head>
 
 <body>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
   <!-- Page Content -->
   <div class="container">
 
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
-      <h1 class="display-3">A Warm Welcome!</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt
-        possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam
-        repellat.</p>
-      <a href="#" class="btn btn-primary btn-lg" id="create">Create a character</a>
+      <h1 class="display-3">Welcome comic fan!</h1>
+      <p class="lead">Here you will see cards of your favourite comics' characters that you can create, edit and delete.
+        Click "show whole card" to see a complete description of the chosen character.</p>
+      <a href="#" class="btn btn-primary btn-lg" id="create" data-toggle="modal" data-target="#create-modal">Create a
+        character</a>
 
     </header>
 
@@ -78,7 +48,7 @@
               <h4 class="card-title name-for-modal" id="name"> </h4>
               <p class="card-text short-for-modal" id="short-description"> </p>
               <a class="btn btn-white border border-secondary long-description-button" data-toggle="modal"
-                data-target="#exampleModal">Show
+                data-target="#open-modal">Show
                 whole card</a>
               <p class="card-text text-justify pt-3 long-for-modal" id="long-description" style="display: none;"> </p>
             </div>
@@ -90,11 +60,10 @@
       </template>
     </div>
     <!-- /.row -->
-    <!-- modal -->
-    <!-- Button trigger modal -->
 
+    <!-- modal -->
     <!-- Modal open character -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="open-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -114,32 +83,52 @@
         </div>
       </div>
     </div>
-
-
     <!-- /modal open character -->
 
-    <!-- /modal edit character -->
-    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- modal create character -->
+    <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Create a character</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
           <div class="modal-body">
-            ...
+            <div class="form-group">
+              <label for="input-name">Name</label>
+              <input type="text" class="form-control" id="input-name" placeholder="Name">
+            </div>
+
+            <div class="form-group">
+              <label for="input-short-description">Short description</label>
+              <input type="text" class="form-control" id="input-short-description"
+                placeholder="Describe you hero in one line">
+            </div>
+
+            <div class="form-group">
+              <label for="input-long-description" class="form-label">Long description</label>
+              <textarea class="form-control" id="input-long-description" rows="3"
+                placeholder="Write a full description of your hero"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="input-image" class="form-label" id="input-image" accept=".jpg, .jpeg, .png" file>Add an image
+                of your hero</label>
+              <input class="form-control" type="file" id="input-image">
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" id="submit">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
-    </div> -->
-    <!-- /modal edit character -->
+    </div>
+    <!-- /modal create character -->
 
   </div>
   <!-- /.container -->
