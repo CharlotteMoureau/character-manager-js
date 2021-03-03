@@ -63,13 +63,13 @@
 
     document.getElementById('submit').addEventListener('click', async () => {
       const inputs = Array.from(document.getElementsByClassName("inputs"));
-      const values = inputs.map(({value}) => value.trim());
+      const values = inputs.map(({ value }) => value.trim());
 
-      if (values.some((value) => value ==="")){
+      if (values.some((value) => value === "")) {
         alert("there's an empty input!");
         return;
       }
-      else{
+      else {
         createCharacter(values);
 
       }
@@ -77,12 +77,9 @@
     });
   }
 
-
-
-
   //create a character
 
-  async function createCharacter(values){
+  async function createCharacter(values) {
     try {
 
       const [name, shortDescription, description] = values;
@@ -108,8 +105,8 @@
     }
   }
   //create image
-  function createImage(element){
-    document.querySelector("#input-image").addEventListener("change",(element) => {
+  function createImage(element) {
+    document.querySelector("#input-image").addEventListener("change", (element) => {
       const file = element.target.files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -123,25 +120,22 @@
   //edit form
   function editForm() {
 
-    document.getElementById('test').addEventListener('click', async () => {
-      console.log("gzeghze")
-      const inputs = Array.from(document.getElementsByClassName("edits"));
-      const editValues = inputs.map(({value}) => value.trim());
+    document.getElementById('edit-inside-modal').addEventListener('click', async () => {
 
-      if (editValues.some((value) => value ==="")){
+      const inputs = Array.from(document.getElementsByClassName("edits"));
+      const editValues = inputs.map(({ value }) => value.trim());
+
+      if (editValues.some((value) => value === "")) {
         alert("there's an empty input!");
         return;
-      }
-      else{
+      } else {
         editCharacter(editValues);
-
       }
-
     });
   }
 
   //edit an element
-   async function editCharacter(){
+  async function editCharacter() {
     const editButton = document.getElementsByClassName('submit-edit');
 
     for (let i = 0; i < editButton.length; i++) {
@@ -165,7 +159,7 @@
               image,
             }),
           });
-console.log("coucou");
+          console.log("coucou");
           const editedCharacter = await response.json();
           console.log(editedCharacter);
           location.reload();
@@ -212,9 +206,7 @@ console.log("coucou");
     };
   }
 
-  // edit a character
-
-  // /!\ ne pas oublier de ne "rien" mettre dans les champs pour que ce soit pris en compte
+  //appeler toutes les fonctions
   ourApi.then(character => {
     displayCharactersCards(character);
     openCharacterCard();
@@ -222,6 +214,5 @@ console.log("coucou");
     createImage();
     correctForm();
     editForm();
-
   })
 })();
