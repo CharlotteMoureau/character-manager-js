@@ -77,13 +77,14 @@
             <div class="card-body">
               <h4 class="card-title name-for-modal" id="name"> </h4>
               <p class="card-text short-for-modal" id="short-description"> </p>
-              <a class="btn btn-primary long-description-button" data-toggle="modal" data-target="#exampleModal">Show
+              <a class="btn btn-white border border-secondary long-description-button" data-toggle="modal"
+                data-target="#exampleModal">Show
                 whole card</a>
               <p class="card-text text-justify pt-3 long-for-modal" id="long-description" style="display: none;"> </p>
             </div>
             <div class="card-footer">
               <button class="btn btn-primary" type="button" id="edit">Edit</button>
-              <button class="btn btn-primary" type="button" id="delete">Delete </button>
+              <button class="btn btn-danger" type="button" id="delete">Delete </button>
             </div>
           </div>
       </template>
@@ -104,11 +105,11 @@
             </button>
           </div>
           <div id="modal-body">
-            <img alt="" src="http://placehold.it/500x325" id="modal-image">
-            <h4>Short description</h4>
-            <p id="short-modal-description"></p>
-            <h4>Description</h4>
-            <p id="long-modal-description"></p>
+            <img class="p-2" alt="" src="http://placehold.it/500x325" id="modal-image">
+            <h4 class="p-2">Info</h4>
+            <p class="p-2" id="short-modal-description"></p>
+            <h4 class="p-2">Description</h4>
+            <p class="p-2" id="long-modal-description"></p>
           </div>
         </div>
       </div>
