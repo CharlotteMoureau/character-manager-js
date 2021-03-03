@@ -10,6 +10,10 @@
 //     }
 // }
 (() => {
+
+    const testId = new Array();
+
+
     // fetch API
     async function fetchApi() {
         try {
@@ -25,7 +29,7 @@
 
     // clone character's cards
     function displayCharactersCards(character) {
-        character.forEach(({ name, shortDescription, image, description }) => {
+        character.forEach(({ name, shortDescription, image, description, id}) => {
             const cardTemplate = document.querySelector('#template');
             const target = document.querySelector('#target');
             const cardClone = cardTemplate.cloneNode(true).content;
@@ -36,8 +40,11 @@
             cardClone.querySelector('#long-description').innerHTML = description;
 
             target.appendChild(cardClone);
-        });
 
+            testId.push(id);
+           
+        });
+            console.log(testId)
     }
 
     ourApi.then(character => {
@@ -49,6 +56,7 @@
     // collapse description
     function openCharacterCard() {
         const longDescriptionButton = document.getElementsByClassName('long-description-button');
+        
         const cardName = document.getElementsByClassName('name-for-modal');
         const shortDescription = document.getElementsByClassName('short-for-modal');
         const longDescription = document.getElementsByClassName('long-for-modal');
@@ -71,11 +79,63 @@
     }
 
     ourApi.then(() => {
-        openCharacterCard();
+       openCharacterCard();
     })
 
-    // create a character
+    //create a character
+   
+    // // function refresh
+
+    
+    
     // delete a character
+    function deleteCharacter(){
+        const deleteButton = document.getElementsByClassName('delete');
+        let test;
+        
+        
+        for (let i = 0; i < deleteButton.length; i++) {
+            deleteButton[i].addEventListener('click', async function () {
+                
+                
+                test = confirm('are you sure you want to delete this character?');
+                
+                if(test == true ){
+                    const id = testId[i];
+                    console.log(id)
+
+                    try {
+                        const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
+
+                        const deletedCharacter = await response.json();
+                        console.log(deletedCharacter);
+                        location.reload();
+                        
+                    } catch (error) {
+                        console.error(error);
+                    }
+                  
+
+
+                }else{
+                    
+                    alert('This character has not been deleted');
+                }
+
+
+            });
+        };
+
+
+     }
+     ourApi.then(() => {
+        deleteCharacter();
+     })
     // edit a character
 
     // /!\ ne pas oublier de ne "rien" mettre dans les champs pour que ce soit pris en compte
