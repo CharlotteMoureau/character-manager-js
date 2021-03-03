@@ -136,39 +136,40 @@
 
   //edit an element
   async function editCharacter() {
-    const editButton = document.getElementsByClassName('submit-edit');
+    console.log('coucou');
+    // const editButton = document.getElementsByClassName('submit-edit');
 
-    for (let i = 0; i < editButton.length; i++) {
-      console.log(editButton[i]);
-      editButton[i].addEventListener('click', async function () {
+    // for (let i = 0; i < editButton.length; i++) {
+    //   console.log(editButton[i]);
+    //   // editButton[i].addEventListener('click', async function () {
 
 
-        const [name, shortDescription, description] = editValues;
-        const id = characterId[i];
+    //   //   const [name, shortDescription, description] = editValues;
+    //   //   const id = characterId[i];
 
-        try {
-          const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
-            method: 'PUT',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name,
-              shortDescription,
-              description,
-              image,
-            }),
-          });
-          console.log("coucou");
-          const editedCharacter = await response.json();
-          console.log(editedCharacter);
-          location.reload();
+    //   //   try {
+    //   //     const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
+    //   //       method: 'PUT',
+    //   //       headers: {
+    //   //         "Content-Type": "application/json",
+    //   //       },
+    //   //       body: JSON.stringify({
+    //   //         name,
+    //   //         shortDescription,
+    //   //         description,
+    //   //         image,
+    //   //       }),
+    //   //     });
+    //   //     console.log("coucou");
+    //   //     const editedCharacter = await response.json();
+    //   //     console.log(editedCharacter);
+    //   //     location.reload();
 
-        } catch (error) {
-          console.error(error);
-        }
-      });
-    };
+    //   //   } catch (error) {
+    //   //     console.error(error);
+    //   //   }
+    //   // });
+    // };
   }
 
   // delete a character
