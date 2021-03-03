@@ -17,8 +17,7 @@
   <link href="bootstrap/css/heroic-features.css" rel="stylesheet">
 
   <!-- link bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 
 <body>
@@ -47,13 +46,12 @@
             <div class="card-body">
               <h4 class="card-title name-for-modal" id="name"> </h4>
               <p class="card-text short-for-modal" id="short-description"> </p>
-              <a class="btn btn-white border border-secondary long-description-button" data-toggle="modal"
-                data-target="#open-modal">Show
+              <a class="btn btn-white border border-secondary long-description-button" data-toggle="modal" data-target="#open-modal">Show
                 whole card</a>
               <p class="card-text text-justify pt-3 long-for-modal" id="long-description" style="display: none;"> </p>
             </div>
             <div class="card-footer">
-              <button class="btn btn-primary" type="button" id="edit">Edit</button>
+              <button class="btn btn-primary submit-edit" type="button" id="edit" data-toggle="modal" data-target="#edit-modal">Edit</button>
               <button class="btn btn-danger delete" type="button">Delete </button>
             </div>
           </div>
@@ -63,8 +61,7 @@
 
     <!-- modal -->
     <!-- Modal open character -->
-    <div class="modal fade" id="open-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
+    <div class="modal fade" id="open-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -86,8 +83,7 @@
     <!-- /modal open character -->
 
     <!-- modal create character -->
-    <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
+    <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -100,23 +96,21 @@
           <div class="modal-body">
             <div class="form-group">
               <label for="input-name">Name</label>
-              <input type="text" class="form-control" id="input-name" placeholder="Name">
+              <input type="text" class="form-control inputs" id="input-name" placeholder="Name">
             </div>
 
             <div class="form-group">
               <label for="input-short-description">Short description</label>
-              <input type="text" class="form-control" id="input-short-description"
-                placeholder="Describe you hero in one line">
+              <input type="text" class="form-control inputs" id="input-short-description" placeholder="Describe you hero in one line">
             </div>
 
             <div class="form-group">
               <label for="input-long-description" class="form-label">Long description</label>
-              <textarea class="form-control" id="input-long-description" rows="3"
-                placeholder="Write a full description of your hero"></textarea>
+              <textarea class="form-control inputs" id="input-long-description" rows="3" placeholder="Write a full description of your hero"></textarea>
             </div>
 
             <div class="mb-3">
-              <label for="input-image" class="form-label" id="input-image" accept=".jpg, .jpeg, .png" file>Add an image
+              <label for="input-image" class="form-label" file>Add an image
                 of your hero</label>
               <input class="form-control" type="file" id="input-image">
             </div>
@@ -129,6 +123,49 @@
       </div>
     </div>
     <!-- /modal create character -->
+
+
+    <!-- modal edit character -->
+    <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit a character</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="input-name">Name</label>
+              <input type="text" class="form-control " id="edit-name">
+            </div>
+
+            <div class="form-group">
+              <label for="input-short-description">Short description</label>
+              <input type="text" class="form-control " id="edit-short-description">
+            </div>
+
+            <div class="form-group">
+              <label for="input-long-description" class="form-label">Long description</label>
+              <textarea class="form-control " id="edit-long-description" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="input-image" class="form-label" file>Edit the image
+                of your hero</label>
+              <input class="form-control" type="file" id="edit-image">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary ">Edit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /modal edit character -->
 
   </div>
   <!-- /.container -->
@@ -144,9 +181,7 @@
   <!-- Bootstrap core JavaScript -->
   <script src="bootstrap/vendor/jquery/jquery.min.js"></script>
   <script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
   <script src="assets/script.js"></script>
 </body>
 
