@@ -71,10 +71,12 @@
       }
       else{
         createCharacter(values);
+
       }
 
     });
   }
+
 
 
 
@@ -118,31 +120,38 @@
 
   }
 
+  //edit form
+  function editForm() {
+
+    document.getElementById('test').addEventListener('click', async () => {
+      console.log("gzeghze")
+      const inputs = Array.from(document.getElementsByClassName("edits"));
+      const editValues = inputs.map(({value}) => value.trim());
+
+      if (editValues.some((value) => value ==="")){
+        alert("there's an empty input!");
+        return;
+      }
+      else{
+        editCharacter(editValues);
+
+      }
+
+    });
+  }
+
   //edit an element
-/*  function editCharacter(){
+   async function editCharacter(){
     const editButton = document.getElementsByClassName('submit-edit');
 
-
-    const cardName = document.getElementsByClassName('name-for-modal');
-    const shortDescription = document.getElementsByClassName('short-for-modal');
-    const longDescription = document.getElementsByClassName('long-for-modal');
-    const cardImage = document.getElementsByClassName('image-for-modal');
-
     for (let i = 0; i < editButton.length; i++) {
+      console.log(editButton[i]);
       editButton[i].addEventListener('click', async function () {
 
-        let editName = document.getElementById('edit-name');
-        let editShortDescription = document.getElementById('edit-short-description');
-        let editLongDescription = document.getElementById('edit-long-description');
-        let editImage = document.getElementById('edit-image');
 
-        editName.value = cardName[i].textContent;
-        editShortDescription.value = shortDescription[i].textContent;
-        editLongDescription.textContent = longDescription[i].textContent;
-        editImage.src = cardImage[i].src;
-
-        const [name, shortDescription, description] = values;
+        const [name, shortDescription, description] = editValues;
         const id = characterId[i];
+
         try {
           const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
             method: 'PUT',
@@ -156,17 +165,17 @@
               image,
             }),
           });
-
+console.log("coucou");
           const editedCharacter = await response.json();
           console.log(editedCharacter);
-          //  location.reload();
+          location.reload();
 
         } catch (error) {
           console.error(error);
         }
       });
     };
-  }*/
+  }
 
   // delete a character
   function deleteCharacter() {
@@ -212,6 +221,7 @@
     deleteCharacter();
     createImage();
     correctForm();
+    editForm();
 
   })
 })();
