@@ -33,7 +33,7 @@
     });
   }
 
-  // collapse description
+  // open character card
   function openCharacterCard() {
     const longDescriptionButton = document.getElementsByClassName('long-description-button');
 
@@ -45,7 +45,7 @@
     for (let i = 0; i < longDescriptionButton.length; i++) {
       longDescriptionButton[i].addEventListener('click', function () {
 
-        let modalName = document.getElementById('openModalLabel');
+        let modalName = document.getElementById('name-modal');
         let modalShortDescription = document.getElementById('short-modal-description');
         let modalLongDescription = document.getElementById('long-modal-description');
         let modalImage = document.getElementById('modal-image');
@@ -119,57 +119,49 @@
 
   //edit form
   function editForm() {
+    const outerEditButton = document.getElementsByClassName('outer-edit');
+    const innerEditButton = document.getElementById('edit-inside-modal');
 
-    document.getElementById('edit-inside-modal').addEventListener('click', async () => {
+    for (let i = 0; i < outerEditButton.length; i++) {
 
-      const inputs = Array.from(document.getElementsByClassName("edits"));
-      const editValues = inputs.map(({ value }) => value.trim());
+      outerEditButton[i].addEventListener('click', () => {
 
-      if (editValues.some((value) => value === "")) {
-        alert("there's an empty input!");
-        return;
-      } else {
-        editCharacter(editValues);
-      }
-    });
-  }
+        innerEditButton.addEventListener('click', async () => {
+          const editInputs = Array.from(document.getElementsByClassName("edits"));
+          const editValues = editInputs.map(({ value }) => value.trim());
 
-  //edit an element
-  async function editCharacter() {
-    console.log('coucou');
-    // const editButton = document.getElementsByClassName('submit-edit');
+          if (editValues.some((value) => value === "")) {
+            alert("there's an empty input!");
+            return;
+          }
+          else {
+            const [name, shortDescription, description] = editValues;
+            const id = characterId[i];
+            console.log(editValues);
+            // ça bloque dans le try avec l'erreur "First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object."
+            try {
+              const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
+                method: 'PUT',
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name,
+                  shortDescription,
+                  description,
+                  image,
+                }),
+              });
+              const editedCharacter = await response.json();
+              console.log(editedCharacter);
 
-    // for (let i = 0; i < editButton.length; i++) {
-    //   console.log(editButton[i]);
-    //   // editButton[i].addEventListener('click', async function () {
-
-
-    //   //   const [name, shortDescription, description] = editValues;
-    //   //   const id = characterId[i];
-
-    //   //   try {
-    //   //     const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
-    //   //       method: 'PUT',
-    //   //       headers: {
-    //   //         "Content-Type": "application/json",
-    //   //       },
-    //   //       body: JSON.stringify({
-    //   //         name,
-    //   //         shortDescription,
-    //   //         description,
-    //   //         image,
-    //   //       }),
-    //   //     });
-    //   //     console.log("coucou");
-    //   //     const editedCharacter = await response.json();
-    //   //     console.log(editedCharacter);
-    //   //     location.reload();
-
-    //   //   } catch (error) {
-    //   //     console.error(error);
-    //   //   }
-    //   // });
-    // };
+            } catch (error) {
+              console.error(error);
+            }
+          }
+        });
+      });
+    }
   }
 
   // delete a character
