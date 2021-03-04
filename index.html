@@ -53,7 +53,8 @@
               <p class="card-text text-justify pt-3 long-for-modal" id="long-description" style="display: none;"> </p>
             </div>
             <div class="card-footer">
-              <button class="btn btn-primary" type="button" id="edit">Edit</button>
+              <button class="btn btn-primary outer-edit" type="button" id="edit" data-toggle="modal"
+                data-target="#edit-modal">Edit</button>
               <button class="btn btn-danger delete" type="button">Delete </button>
             </div>
           </div>
@@ -68,7 +69,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">character name</h5>
+            <h5 class="modal-title" id="name-modal">character name</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -100,25 +101,25 @@
           <div class="modal-body">
             <div class="form-group">
               <label for="input-name">Name</label>
-              <input type="text" class="form-control" id="input-name" placeholder="Name">
+              <input type="text" class="form-control inputs" id="input-name" placeholder="Name">
             </div>
 
             <div class="form-group">
               <label for="input-short-description">Short description</label>
-              <input type="text" class="form-control" id="input-short-description"
+              <input type="text" class="form-control inputs" id="input-short-description"
                 placeholder="Describe you hero in one line">
             </div>
 
             <div class="form-group">
               <label for="input-long-description" class="form-label">Long description</label>
-              <textarea class="form-control" id="input-long-description" rows="3"
+              <textarea class="form-control inputs" id="input-long-description" rows="3"
                 placeholder="Write a full description of your hero"></textarea>
             </div>
 
             <div class="mb-3">
-              <label for="input-image" class="form-label" id="input-image" accept=".jpg, .jpeg, .png" file>Add an image
+              <label for="input-image" class="form-label" file>Add an image
                 of your hero</label>
-              <input class="form-control" type="file" id="input-image">
+              <input class="form-control inputs" type="file" id="input-image">
             </div>
           </div>
           <div class="modal-footer">
@@ -129,6 +130,50 @@
       </div>
     </div>
     <!-- /modal create character -->
+
+
+    <!-- modal edit character -->
+    <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit a character</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="input-name">Name</label>
+              <input type="text" class="form-control edits" id="edit-name">
+            </div>
+
+            <div class="form-group">
+              <label for="input-short-description">Short description</label>
+              <input type="text" class="form-control edits" id="edit-short-description">
+            </div>
+
+            <div class="form-group">
+              <label for="input-long-description" class="form-label">Long description</label>
+              <textarea class="form-control edits" id="edit-long-description" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="input-image" class="form-label" file>Edit the image
+                of your hero</label>
+              <input class="form-control edits" type="file" id="edit-image">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary " id="edit-inside-modal">Submit edit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /modal edit character -->
 
   </div>
   <!-- /.container -->

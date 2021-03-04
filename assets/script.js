@@ -1,143 +1,244 @@
-
-
-// creation of a class character
-// class Character {
-//     constructor(name, shortDescription, description, image) {
-//         this.name = name;
-//         this.shortDescription = shortDescription;
-//         this.description = description;
-//         this.image = image;
-//     }
-// }
 (() => {
 
-    const characterId = new Array();
+  const characterId = new Array();
+  const cardName = document.getElementsByClassName('name-for-modal');
+  const shortDescription = document.getElementsByClassName('short-for-modal');
+  const longDescription = document.getElementsByClassName('long-for-modal');
+  const cardImage = document.getElementsByClassName('image-for-modal');
 
-    // fetch API
-    async function fetchApi() {
-        try {
-            const myFetch = await fetch('https://character-database.becode.xyz/characters');
-            const character = await myFetch.json();
-            return character;
-        } catch (error) {
-            console.error(error);
-        }
+  // fetch API
+  async function fetchApi() {
+    try {
+      const myFetch = await fetch('https://character-database.becode.xyz/characters');
+      const character = await myFetch.json();
+      return character;
+    } catch (error) {
+      console.error(error);
     }
-    // retrieves the fetchApi function
-    let ourApi = fetchApi();
+  }
+  // retrieves the fetchApi function
+  let ourApi = fetchApi();
 
-    // clone character's cards
-    function displayCharactersCards(character) {
-        character.forEach(({ name, shortDescription, image, description, id }) => {
-            const cardTemplate = document.querySelector('#template');
-            const target = document.querySelector('#target');
-            const cardClone = cardTemplate.cloneNode(true).content;
+  // clone character's cards
+  function displayCharactersCards(character) {
+    character.forEach(({ name, shortDescription, image, description, id }) => {
+      const cardTemplate = document.querySelector('#template');
+      const target = document.querySelector('#target');
+      const cardClone = cardTemplate.cloneNode(true).content;
 
-            cardClone.querySelector('#name').innerHTML = name;
-            cardClone.querySelector('#short-description').innerHTML = shortDescription;
-            cardClone.querySelector('#image').src = `data:image/*;base64,${image}`;
-            cardClone.querySelector('#long-description').innerHTML = description;
+      cardClone.querySelector('#name').innerHTML = name;
+      cardClone.querySelector('#short-description').innerHTML = shortDescription;
+      cardClone.querySelector('#image').src = `data:image/*;base64,${image}`;
+      cardClone.querySelector('#long-description').innerHTML = description;
 
-            target.appendChild(cardClone);
+      target.appendChild(cardClone);
 
-            characterId.push(id);
-        });
+      characterId.push(id);
+    });
+  }
+
+  // open character card
+  function openCharacterCard() {
+    const longDescriptionButton = document.getElementsByClassName('long-description-button');
+
+    for (let i = 0; i < longDescriptionButton.length; i++) {
+      longDescriptionButton[i].addEventListener('click', function () {
+
+        let modalName = document.getElementById('name-modal');
+        let modalShortDescription = document.getElementById('short-modal-description');
+        let modalLongDescription = document.getElementById('long-modal-description');
+        let modalImage = document.getElementById('modal-image');
+
+        modalName.textContent = cardName[i].textContent;
+        modalShortDescription.textContent = shortDescription[i].textContent;
+        modalLongDescription.textContent = longDescription[i].textContent;
+        modalImage.src = cardImage[i].src;
+      });
     }
+  }
 
-    // collapse description
-    function openCharacterCard() {
-        const longDescriptionButton = document.getElementsByClassName('long-description-button');
+  // form
+  function correctForm() {
 
-        const cardName = document.getElementsByClassName('name-for-modal');
-        const shortDescription = document.getElementsByClassName('short-for-modal');
-        const longDescription = document.getElementsByClassName('long-for-modal');
-        const cardImage = document.getElementsByClassName('image-for-modal');
+    document.getElementById('submit').addEventListener('click', async () => {
+      const inputs = Array.from(document.getElementsByClassName("inputs"));
+      const values = inputs.map(({ value }) => value.trim());
 
-        for (let i = 0; i < longDescriptionButton.length; i++) {
-            longDescriptionButton[i].addEventListener('click', function () {
+      if (values.some((value) => value === "")) {
+        alert("there's an empty input!");
+        return;
+      }
+      else {
+        createCharacter(values);
 
-                let modalName = document.getElementById('exampleModalLabel');
-                let modalShortDescription = document.getElementById('short-modal-description');
-                let modalLongDescription = document.getElementById('long-modal-description');
-                let modalImage = document.getElementById('modal-image');
+      }
 
-                modalName.textContent = cardName[i].textContent;
-                modalShortDescription.textContent = shortDescription[i].textContent;
-                modalLongDescription.textContent = longDescription[i].textContent;
-                modalImage.src = cardImage[i].src;
-            });
-        }
+    });
+  }
+
+  //create a character
+  async function createCharacter(values) {
+    try {
+
+      const [name, shortDescription, description] = values;
+      const response = await fetch('https://character-database.becode.xyz/characters', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          shortDescription,
+          description,
+          image,
+        }),
+      });
+
+      const createdCharacter = await response.json();
+      console.log(createdCharacter);
+      location.reload();
+
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    // form
-    function correctForm() {
+  //create image
+  function createImage(element) {
+    document.querySelector("#input-image").addEventListener("change", (element) => {
+      const file = element.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        image = reader.result.replace('data:', '').replace(/^.+,/, '');
+      };
+      reader.readAsDataURL(file)
+    });
+  }
 
-        document.getElementById('submit').addEventListener('click', function () {
-            const nameModal = document.querySelector('#input-name').value;
-            const shortDescriptionModal = document.querySelector('#input-short-description').value;
-            const longDescriptionModal = document.querySelector('#input-long-description').value;
+   function transformToUri() {
+     const inputs = Array.from(document.getElementsByClassName("edits"));
+     const values = inputs.map(({ value }) => value.trim());
+     let canvas = document.createElement("canvas");
+     context = canvas.getContext('2d');
+
+     function make_base(values) {
+       base_image = new Image();
+       base_image.src = values[3];
+       base_image.onload = function () {
+         context.drawImage(base_image, 100, 100);
+       }
+     }
+
+     make_base(values);
+     let jpegUrl = canvas.toDataURL("image/jpeg");
+
+     return jpegUrl;
+   };
+
+  //edit character
+  function editCharacter() {
+    const outerEditButton = document.getElementsByClassName('outer-edit');
+    const innerEditButton = document.getElementById('edit-inside-modal');
 
 
+    for (let i = 0; i < outerEditButton.length; i++) {
+      outerEditButton[i].addEventListener('click', () => {
 
-            // regex to check if there are any spaces
-            if (nameModal === null || nameModal.match(/^ *$/) !== null
-                && shortDescriptionModal === null || shortDescriptionModal.match(/^ *$/) !== null
-                && longDescriptionModal === null || longDescriptionModal.match(/^ *$/) !== null) {
-                console.log('coucou');
-            } else {
-                console.log('salut');
+        let modalName = document.getElementById('edit-name');
+        let modalShortDescription = document.getElementById('edit-short-description');
+        let modalLongDescription = document.getElementById('edit-long-description');
+
+        modalName.value = cardName[i].textContent;
+        modalShortDescription.value = shortDescription[i].textContent;
+        modalLongDescription.textContent = longDescription[i].textContent;
+
+        innerEditButton.addEventListener('click', async () => {
+          const editInputs = Array.from(document.getElementsByClassName("edits"));
+          const editValues = editInputs.map(({ value }) => value.trim());
+          let uriImage = transformToUri();
+          console.log(uriImage);
+
+           editValues[3] = uriImage;
+           editValues[3] = editValues[3].substring(23);
+           console.log(editValues[3]);
+
+          if (editValues.some((value) => value === "")) {
+            alert("there's an empty input!");
+            return;
+          }
+          else {
+            const [name, shortDescription, description, image] = editValues;
+            const id = characterId[i];
+
+            try {
+              const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
+                method: 'PUT',
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name,
+                  shortDescription,
+                  description,
+                  image,
+                }),
+
+              });
+              const editedCharacter = await response.json();
+              console.log(editedCharacter);
+              // location.reload();
+
+            } catch (error) {
+              console.error(error);
             }
-
-            // if( document.getElementById("fileFieldId").files.length == 0 ){
-            //     alert("Please Attach File");
-            // }
+          }
         });
+      });
     }
+  }
 
-    //create a character
+  // delete a character
+  function deleteCharacter() {
+    const deleteButton = document.getElementsByClassName('delete');
+    let askToConfirm;
 
-    // delete a character
-    function deleteCharacter() {
-        const deleteButton = document.getElementsByClassName('delete');
-        let askToConfirm;
+    for (let i = 0; i < deleteButton.length; i++) {
+      deleteButton[i].addEventListener('click', async function () {
 
-        for (let i = 0; i < deleteButton.length; i++) {
-            deleteButton[i].addEventListener('click', async function () {
+        askToConfirm = confirm('are you sure you want to delete this character?');
 
-                askToConfirm = confirm('are you sure you want to delete this character?');
+        if (askToConfirm == true) {
+          const id = characterId[i];
 
-                if (askToConfirm == true) {
-                    const id = characterId[i];
-
-                    try {
-                        const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                        });
-
-                        const deletedCharacter = await response.json();
-                        console.log(deletedCharacter);
-                        location.reload();
-
-                    } catch (error) {
-                        console.error(error);
-                    }
-                } else {
-                    alert('This character has not been deleted');
-                }
+          try {
+            const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
+              method: 'DELETE',
+              headers: {
+                "Content-Type": "application/json",
+              },
             });
-        };
-    }
 
-    // edit a character
+            const deletedCharacter = await response.json();
+            console.log(deletedCharacter);
+            location.reload();
 
-    // /!\ ne pas oublier de ne "rien" mettre dans les champs pour que ce soit pris en compte
-    ourApi.then(character => {
-        displayCharactersCards(character);
-        openCharacterCard();
-        deleteCharacter();
-        correctForm();
-    })
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          alert('This character has not been deleted');
+        }
+      });
+    };
+  }
+
+  //appeler toutes les fonctions
+  ourApi.then(character => {
+    displayCharactersCards(character);
+    openCharacterCard();
+    deleteCharacter();
+    createImage();
+    correctForm();
+    editCharacter();
+  })
 })();
