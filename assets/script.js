@@ -115,30 +115,31 @@
     });
   }
 
-  // function transformToUri() {
-  //   const inputs = Array.from(document.getElementsByClassName("edits"));
-  //   const values = inputs.map(({ value }) => value.trim());
-  //   let canvas = document.createElement("canvas");
-  //   context = canvas.getContext('2d');
+   function transformToUri() {
+     const inputs = Array.from(document.getElementsByClassName("edits"));
+     const values = inputs.map(({ value }) => value.trim());
+     let canvas = document.createElement("canvas");
+     context = canvas.getContext('2d');
 
-  //   function make_base(values) {
-  //     base_image = new Image();
-  //     base_image.src = values[3];
-  //     base_image.onload = function () {
-  //       context.drawImage(base_image, 100, 100);
-  //     }
-  //   }
+     function make_base(values) {
+       base_image = new Image();
+       base_image.src = values[3];
+       base_image.onload = function () {
+         context.drawImage(base_image, 100, 100);
+       }
+     }
 
-  //   make_base(values);
-  //   let jpegUrl = canvas.toDataURL("image/jpeg");
-  //   return jpegUrl;
-  // };
+     make_base(values);
+     let jpegUrl = canvas.toDataURL("image/jpeg");
+
+     return jpegUrl;
+   };
 
   //edit character
   function editCharacter() {
     const outerEditButton = document.getElementsByClassName('outer-edit');
     const innerEditButton = document.getElementById('edit-inside-modal');
-    // let uriImage = transformToUri();
+
 
     for (let i = 0; i < outerEditButton.length; i++) {
       outerEditButton[i].addEventListener('click', () => {
@@ -154,18 +155,19 @@
         innerEditButton.addEventListener('click', async () => {
           const editInputs = Array.from(document.getElementsByClassName("edits"));
           const editValues = editInputs.map(({ value }) => value.trim());
-          editValues[3] = cardImage[i].src;
-          let test = editValues[3].substring(23);
-          console.log(typeof test);
-          console.log(typeof editValues[3]);
-          // editValues[3] = uriImage;
+          let uriImage = transformToUri();
+          console.log(uriImage);
+
+           editValues[3] = uriImage;
+           editValues[3] = editValues[3].substring(23);
+           console.log(editValues[3]);
 
           if (editValues.some((value) => value === "")) {
             alert("there's an empty input!");
             return;
           }
           else {
-            const [name, shortDescription, description] = editValues;
+            const [name, shortDescription, description, image] = editValues;
             const id = characterId[i];
 
             try {
@@ -180,8 +182,10 @@
                   description,
                   image,
                 }),
+
               });
               const editedCharacter = await response.json();
+              console.log(editedCharacter);
               // location.reload();
 
             } catch (error) {
