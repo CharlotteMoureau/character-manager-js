@@ -113,13 +113,32 @@
       };
       reader.readAsDataURL(file)
     });
-
   }
+
+  function transformToUri() {
+    const inputs = Array.from(document.getElementsByClassName("inputs"));
+    const values = inputs.map(({ value }) => value.trim());
+    let canvas = document.createElement("canvas");
+    context = canvas.getContext('2d');
+
+    function make_base(values) {
+      base_image = new Image();
+      base_image.src = values[3];
+      base_image.onload = function () {
+        context.drawImage(base_image, 100, 100);
+      }
+    }
+
+    make_base(values);
+    let jpegUrl = canvas.toDataURL("image/jpeg");
+    return jpegUrl;
+  };
 
   //edit character
   function editCharacter() {
     const outerEditButton = document.getElementsByClassName('outer-edit');
     const innerEditButton = document.getElementById('edit-inside-modal');
+    let uriImage = transformToUri();
 
     for (let i = 0; i < outerEditButton.length; i++) {
       outerEditButton[i].addEventListener('click', () => {
@@ -135,6 +154,8 @@
         innerEditButton.addEventListener('click', async () => {
           const editInputs = Array.from(document.getElementsByClassName("edits"));
           const editValues = editInputs.map(({ value }) => value.trim());
+          editValues[3] = uriImage;
+          console.log(editValues);
 
           if (editValues.some((value) => value === "")) {
             alert("there's an empty input!");
@@ -143,8 +164,7 @@
           else {
             const [name, shortDescription, description] = editValues;
             const id = characterId[i];
-            console.log(editValues);
-            // ça bloque dans le try avec l'erreur "First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object."
+
             try {
               const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
                 method: 'PUT',
@@ -160,7 +180,7 @@
               });
               const editedCharacter = await response.json();
               console.log(editedCharacter);
-              location.reload();
+              // location.reload();
 
             } catch (error) {
               console.error(error);
