@@ -1,6 +1,10 @@
 (() => {
 
   const characterId = new Array();
+  const cardName = document.getElementsByClassName('name-for-modal');
+  const shortDescription = document.getElementsByClassName('short-for-modal');
+  const longDescription = document.getElementsByClassName('long-for-modal');
+  const cardImage = document.getElementsByClassName('image-for-modal');
 
   // fetch API
   async function fetchApi() {
@@ -36,11 +40,6 @@
   // open character card
   function openCharacterCard() {
     const longDescriptionButton = document.getElementsByClassName('long-description-button');
-
-    const cardName = document.getElementsByClassName('name-for-modal');
-    const shortDescription = document.getElementsByClassName('short-for-modal');
-    const longDescription = document.getElementsByClassName('long-for-modal');
-    const cardImage = document.getElementsByClassName('image-for-modal');
 
     for (let i = 0; i < longDescriptionButton.length; i++) {
       longDescriptionButton[i].addEventListener('click', function () {
@@ -78,7 +77,6 @@
   }
 
   //create a character
-
   async function createCharacter(values) {
     try {
 
@@ -104,6 +102,7 @@
       console.error(error);
     }
   }
+
   //create image
   function createImage(element) {
     document.querySelector("#input-image").addEventListener("change", (element) => {
@@ -117,14 +116,21 @@
 
   }
 
-  //edit form
-  function editForm() {
+  //edit character
+  function editCharacter() {
     const outerEditButton = document.getElementsByClassName('outer-edit');
     const innerEditButton = document.getElementById('edit-inside-modal');
 
     for (let i = 0; i < outerEditButton.length; i++) {
-
       outerEditButton[i].addEventListener('click', () => {
+
+        let modalName = document.getElementById('edit-name');
+        let modalShortDescription = document.getElementById('edit-short-description');
+        let modalLongDescription = document.getElementById('edit-long-description');
+
+        modalName.value = cardName[i].textContent;
+        modalShortDescription.value = shortDescription[i].textContent;
+        modalLongDescription.textContent = longDescription[i].textContent;
 
         innerEditButton.addEventListener('click', async () => {
           const editInputs = Array.from(document.getElementsByClassName("edits"));
@@ -149,11 +155,12 @@
                   name,
                   shortDescription,
                   description,
-                  image,
+                  // image,
                 }),
               });
               const editedCharacter = await response.json();
               console.log(editedCharacter);
+              location.reload();
 
             } catch (error) {
               console.error(error);
@@ -206,6 +213,6 @@
     deleteCharacter();
     createImage();
     correctForm();
-    editForm();
+    editCharacter();
   })
 })();
