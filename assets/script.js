@@ -110,37 +110,50 @@
       const reader = new FileReader();
       reader.onloadend = () => {
         image = reader.result.replace('data:', '').replace(/^.+,/, '');
+      // console.log(image);
+        return image;
       };
+      console.log(reader);
       reader.readAsDataURL(file)
+      const tst = image;
+      console.log(tst);
+      return image;
+
+
     });
   }
 
-   function transformToUri() {
+   function transformToUri(tst) {
+
+     // console.log(test);
      const inputs = Array.from(document.getElementsByClassName("edits"));
      const values = inputs.map(({ value }) => value.trim());
      let canvas = document.createElement("canvas");
      context = canvas.getContext('2d');
-
-     function make_base(values) {
        base_image = new Image();
        base_image.src = values[3];
        base_image.onload = function () {
          context.drawImage(base_image, 100, 100);
        }
-     }
 
-     make_base(values);
+
+     // make_base(values);
      let jpegUrl = canvas.toDataURL("image/jpeg");
 
-     return jpegUrl;
+     return txt;
    };
 
   //edit character
-  function editCharacter() {
+  function editCharacter(tst) {
     const outerEditButton = document.getElementsByClassName('outer-edit');
     const innerEditButton = document.getElementById('edit-inside-modal');
+    // createImage(image);
+    // const txt = image[1].outerHTML;
+    // var cut = txt.slice(92);
+    // cut = txt.substring(91, txt.length - 8);
+    // console.log(cut);
 
-
+//console.log(tst);
     for (let i = 0; i < outerEditButton.length; i++) {
       outerEditButton[i].addEventListener('click', () => {
 
@@ -155,11 +168,11 @@
         innerEditButton.addEventListener('click', async () => {
           const editInputs = Array.from(document.getElementsByClassName("edits"));
           const editValues = editInputs.map(({ value }) => value.trim());
-          let uriImage = transformToUri();
-          console.log(uriImage);
+          // let uriImage = transformToUri(base_image);
+          // console.log(uriImage);
 
-           editValues[3] = uriImage;
-           editValues[3] = editValues[3].substring(23);
+           editValues[3] = cut;
+           // editValues[3] = editValues[3].substring(23);
            console.log(editValues[3]);
 
           if (editValues.some((value) => value === "")) {
