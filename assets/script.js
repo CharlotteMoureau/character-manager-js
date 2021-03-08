@@ -1,29 +1,20 @@
-(() => {
+const characterId = new Array();
+let image = "";
+const cardName = document.getElementsByClassName('name-for-modal');
+const shortDescription = document.getElementsByClassName('short-for-modal');
+const longDescription = document.getElementsByClassName('long-for-modal');
+const cardImage = document.getElementsByClassName('image-for-modal');
 
-  const characterId = new Array();
-  const cardName = document.getElementsByClassName('name-for-modal');
-  const shortDescription = document.getElementsByClassName('short-for-modal');
-  const longDescription = document.getElementsByClassName('long-for-modal');
-  const cardImage = document.getElementsByClassName('image-for-modal');
+// clone character's cards
+async function displayCharactersCards() {
+  try {
+    const response = await fetch('https://character-database.becode.xyz/characters');
+    const character = await response.json();
 
-  // fetch API
-  async function fetchApi() {
-    try {
-      const myFetch = await fetch('https://character-database.becode.xyz/characters');
-      const character = await myFetch.json();
-      return character;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  // retrieves the fetchApi function
-  let ourApi = fetchApi();
+    const cardTemplate = document.querySelector('#template');
+    const target = document.querySelector('#target');
 
-  // clone character's cards
-  function displayCharactersCards(character) {
     character.forEach(({ name, shortDescription, image, description, id }) => {
-      const cardTemplate = document.querySelector('#template');
-      const target = document.querySelector('#target');
       const cardClone = cardTemplate.cloneNode(true).content;
 
       cardClone.querySelector('#name').innerHTML = name;
@@ -35,210 +26,166 @@
 
       characterId.push(id);
     });
+  } catch (error) {
+    console.error(error);
   }
+}
 
-  // open character card
-  function openCharacterCard() {
-    const longDescriptionButton = document.getElementsByClassName('long-description-button');
+let callAllFunctions = displayCharactersCards();
 
-    for (let i = 0; i < longDescriptionButton.length; i++) {
-      longDescriptionButton[i].addEventListener('click', function () {
+callAllFunctions.then(() => {
+  openCharacterCard();
+  createImage();
+  createCharacter();
+  editCharacter();
+  deleteCharacter();
+})
 
-        let modalName = document.getElementById('name-modal');
-        let modalShortDescription = document.getElementById('short-modal-description');
-        let modalLongDescription = document.getElementById('long-modal-description');
-        let modalImage = document.getElementById('modal-image');
+// open character card
+function openCharacterCard() {
+  const longDescriptionButton = document.getElementsByClassName('long-description-button');
 
-        modalName.textContent = cardName[i].textContent;
-        modalShortDescription.textContent = shortDescription[i].textContent;
-        modalLongDescription.textContent = longDescription[i].textContent;
-        modalImage.src = cardImage[i].src;
-      });
-    }
-  }
+  for (let i = 0; i < longDescriptionButton.length; i++) {
+    longDescriptionButton[i].addEventListener('click', function () {
 
-  // form
-  function correctForm() {
+      let modalName = document.getElementById('name-modal');
+      let modalShortDescription = document.getElementById('short-modal-description');
+      let modalLongDescription = document.getElementById('long-modal-description');
+      let modalImage = document.getElementById('modal-image');
 
-    document.getElementById('submit').addEventListener('click', async () => {
-      const inputs = Array.from(document.getElementsByClassName("inputs"));
-      const values = inputs.map(({ value }) => value.trim());
-
-      if (values.some((value) => value === "")) {
-        alert("there's an empty input!");
-        return;
-      }
-      else {
-        createCharacter(values);
-
-      }
-
+      modalName.textContent = cardName[i].textContent;
+      modalShortDescription.textContent = shortDescription[i].textContent;
+      modalLongDescription.textContent = longDescription[i].textContent;
+      modalImage.src = cardImage[i].src;
     });
   }
+}
 
-  //create a character
-  async function createCharacter(values) {
+//create a character
+async function createCharacter() {
+  document.getElementById('create').addEventListener('click', async () => {
     try {
+      document.getElementById('submit').addEventListener('click', async () => {
+        const inputs = Array.from(document.getElementsByClassName("inputs"));
+        const values = inputs.map(({ value }) => value.trim());
 
-      const [name, shortDescription, description] = values;
-      const response = await fetch('https://character-database.becode.xyz/characters', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          shortDescription,
-          description,
-          image,
-        }),
+        if (values.some((value) => value === "")) {
+          alert("there's an empty input!");
+          return;
+        }
+        else {
+          const [name, shortDescription, description] = values;
+          const response = await fetch('https://character-database.becode.xyz/characters', {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              shortDescription,
+              description,
+              image,
+            }),
+          });
+
+          const createdCharacter = await response.json();
+          console.log(createdCharacter);
+          location.reload();
+        }
       });
-
-      const createdCharacter = await response.json();
-      console.log(createdCharacter);
-      location.reload();
-
     } catch (error) {
       console.error(error);
     }
-  }
+  });
+}
 
-  //create image
-  function createImage(element) {
-    document.querySelector("#input-image").addEventListener("change", (element) => {
-      const file = element.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        image = reader.result.replace('data:', '').replace(/^.+,/, '');
-      };
-      reader.readAsDataURL(file)
-    });
-  }
+//create image
+async function createImage() {
+  document.querySelector("#input-image").addEventListener("change", (element) => {
+    const file = element.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      image = reader.result.replace('data:', '').replace(/^.+,/, '');
+    };
+    reader.readAsDataURL(file)
+  });
+}
 
-   function transformToUri() {
-     const inputs = Array.from(document.getElementsByClassName("edits"));
-     const values = inputs.map(({ value }) => value.trim());
-     let canvas = document.createElement("canvas");
-     context = canvas.getContext('2d');
+//edit character
+async function editCharacter() {
+  const outerEditButton = document.getElementsByClassName('outer-edit');
 
-     function make_base(values) {
-       base_image = new Image();
-       base_image.src = values[3];
-       base_image.onload = function () {
-         context.drawImage(base_image, 100, 100);
-       }
-     }
+  for (let i = 0; i < outerEditButton.length; i++) {
+    outerEditButton[i].addEventListener('click', async () => {
+      const id = characterId[i];
+      try {
+        const response = await fetch(`https://character-database.becode.xyz/characters/${id}`);
+        const character = await response.json();
 
-     make_base(values);
-     let jpegUrl = canvas.toDataURL("image/jpeg");
+        document.getElementById('input-name').value = character.name;
+        document.getElementById('input-short-description').value = character.shortDescription;
+        document.getElementById('input-long-description').textContent = character.description;
+        image = character.image;
 
-     return jpegUrl;
-   };
+        document.getElementById('submit').addEventListener('click', async () => {
+          const inputs = Array.from(document.getElementsByClassName("inputs"));
+          const values = inputs.map(({ value }) => value.trim());
+          const [name, shortDescription, description] = values;
 
-  //edit character
-  function editCharacter() {
-    const outerEditButton = document.getElementsByClassName('outer-edit');
-    const innerEditButton = document.getElementById('edit-inside-modal');
-
-
-    for (let i = 0; i < outerEditButton.length; i++) {
-      outerEditButton[i].addEventListener('click', () => {
-
-        let modalName = document.getElementById('edit-name');
-        let modalShortDescription = document.getElementById('edit-short-description');
-        let modalLongDescription = document.getElementById('edit-long-description');
-
-        modalName.value = cardName[i].textContent;
-        modalShortDescription.value = shortDescription[i].textContent;
-        modalLongDescription.textContent = longDescription[i].textContent;
-
-        innerEditButton.addEventListener('click', async () => {
-          const editInputs = Array.from(document.getElementsByClassName("edits"));
-          const editValues = editInputs.map(({ value }) => value.trim());
-          let uriImage = transformToUri();
-          console.log(uriImage);
-
-           editValues[3] = uriImage;
-           editValues[3] = editValues[3].substring(23);
-           console.log(editValues[3]);
-
-          if (editValues.some((value) => value === "")) {
+          if (values.some((value) => value === "")) {
             alert("there's an empty input!");
             return;
           }
           else {
-            const [name, shortDescription, description, image] = editValues;
-            const id = characterId[i];
-
-            try {
-              const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
-                method: 'PUT',
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  name,
-                  shortDescription,
-                  description,
-                  image,
-                }),
-
-              });
-              const editedCharacter = await response.json();
-              console.log(editedCharacter);
-              // location.reload();
-
-            } catch (error) {
-              console.error(error);
-            }
-          }
-        });
-      });
-    }
-  }
-
-  // delete a character
-  function deleteCharacter() {
-    const deleteButton = document.getElementsByClassName('delete');
-    let askToConfirm;
-
-    for (let i = 0; i < deleteButton.length; i++) {
-      deleteButton[i].addEventListener('click', async function () {
-
-        askToConfirm = confirm('are you sure you want to delete this character?');
-
-        if (askToConfirm == true) {
-          const id = characterId[i];
-
-          try {
-            const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
-              method: 'DELETE',
+            const edit = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
+              method: 'PUT',
               headers: {
                 "Content-Type": "application/json",
               },
+              body: JSON.stringify({
+                name,
+                shortDescription,
+                description,
+                image
+              }),
             });
-
-            const deletedCharacter = await response.json();
-            console.log(deletedCharacter);
+            const editedCharacter = await edit.json();
+            console.log(editedCharacter);
             location.reload();
-
-          } catch (error) {
-            console.error(error);
           }
-        } else {
-          alert('This character has not been deleted');
-        }
-      });
-    };
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    });
   }
+}
 
-  //appeler toutes les fonctions
-  ourApi.then(character => {
-    displayCharactersCards(character);
-    openCharacterCard();
-    deleteCharacter();
-    createImage();
-    correctForm();
-    editCharacter();
-  })
-})();
+// delete a character
+function deleteCharacter() {
+  const deleteButton = document.getElementsByClassName('delete');
+
+  for (let i = 0; i < deleteButton.length; i++) {
+    deleteButton[i].addEventListener('click', async function () {
+
+      if (confirm('Are you sure you want to delete this character?')) {
+        const id = characterId[i];
+
+        try {
+          const response = await fetch(`https://character-database.becode.xyz/characters/${id}`, {
+            method: 'DELETE'
+          });
+
+          const deletedCharacter = await response.json();
+          console.log(deletedCharacter);
+
+          location.reload();
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        alert('This character has not been deleted');
+      }
+    });
+  };
+}
