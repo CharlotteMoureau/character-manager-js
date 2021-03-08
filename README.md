@@ -1,7 +1,7 @@
 # Character-manager-js
 
 ## About this project:
-This was a group project (made in pair-coding with [François Chardon](https://github.com/ChardonFrancois) and [Thomas Chardome](https://github.com/ChardomeThomas)) carried out from the 01st to the 05th of March 2021 as part of the BeCode Liège's Junior Web Developer programm. We were tasked to make a one-page website to manage characters on a dashboard using an API.
+This was a group project (made in pair-coding with [François Chardon](https://github.com/ChardonFrancois) and [Thomas Chardome](https://github.com/ChardomeThomas)) carried out from the 01st to the 05th of March 2021 as part of the BeCode Liège's Junior Web Developer programm. We were tasked to make a one-page website to manage characters on a dashboard using an API. We used Bootstrap; additional design made by François Chardon.
 
 [This is our result](https://charlottemoureau.github.io/character-manager-js/).
 
